@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="kent.gimenez.com.easycalc.MainActivity"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:background="#b4bcc0"
+    >
+
+
+    <EditText
+        android:id="@+id/firstnum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/FirstN"
+        android:inputType="number"
+        />
+
+
+    <EditText
+        android:id="@+id/secondnum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/SecondN"
+        android:inputType="number"/>
+
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textAlignment="center"
+        android:textSize="50sp"/>
+
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+
+        <Button
+            android:id="@+id/btnadd"
+            android:layout_width="wrap_content"
+            android:layout_height="66dp"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="0.09"
+            android:onClick="add"
+            android:text="@string/Add"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/btnminus"
+            android:layout_width="wrap_content"
+            android:layout_height="66dp"
+            android:layout_weight="0.09"
+            android:onClick="minus"
+            android:text="@string/Minus"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="66dp"
+            android:layout_weight="0.09"
+            android:onClick="clear"
+            android:text="@string/C"
+            android:textSize="30sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <Button
+            android:onClick="multiply"
+            android:id="@+id/btnmultiply"
+            android:layout_width="wrap_content"
+            android:layout_height="66dp"
+            android:layout_marginLeft="30dp"
+            android:layout_weight="0.09"
+            android:text="@string/Multiply"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/btndivide"
+            android:layout_width="wrap_content"
+            android:layout_height="66dp"
+            android:layout_weight="0.09"
+            android:text="@string/D"
+            android:textSize="30sp"
+            android:onClick="divide"/>
+
+        <Button
+            android:id="@+id/exit"
+            android:layout_width="wrap_content"
+            android:layout_height="66dp"
+            android:layout_weight="0.09"
+            android:text="@string/EX"
+            android:onClick="exit"
+            android:textSize="30sp"/>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
+
+
+
+----------------------------------------------------------------------------
+
+<resources>
+    <string name="app_name">Easy Calc</string>
+    <string name="FirstN">Enter First Number</string>
+    <string name="SecondN">Enter Second Number</string>
+    <string name="Add">+</string>
+    <string name="Minus">-</string>
+    <string name="Multiply">X</string>
+    <string name="C">Clear</string>
+    <string name="D">/</string>
+    <string name="EX">EXIT</string>
+</resources>
+
+
+-----------------------------------------------------------------------------
+
+
+
+
+package kent.gimenez.com.easycalc;
+
+
+import android.widget.EditText;
+
+public class Operation {
+
+
+
+    public  double add(double n1, double n2){
+
+        return (n1+n2);
+
+
+
+    }
+
+
+    public double minus(double n1, double n2) {
+
+    return (n1-n2);
+    }
+
+
+    public double multiply(double n1, double n2) {
+
+        return (n1*n2);
+    }
+
+
+    public double divide(double n1, double n2) {
+            return(n1/n2);
+    }
+
+
+}
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+package kent.gimenez.com.easycalc;
+
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AlertDialog.Builder;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.DecimalFormat;
+
+public class MainActivity extends AppCompatActivity{
+
+    private EditText FirstNumber;
+    private EditText SecondNumber;
+    private TextView Answer;
+    private String firsttext, secondtext;
+    private double n1, n2;
+    private double result;
+
+    Operation m = new Operation ();
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+    }
+
+    private void findViewById() {
+
+       FirstNumber = (EditText) findViewById(R.id.firstnum);
+        SecondNumber =  (EditText) findViewById(R.id.secondnum);
+        Answer =(TextView) findViewById(R.id.result);
+
+        firsttext = FirstNumber.getText().toString();
+        secondtext = SecondNumber.getText().toString();
+
+        n1 = Double.parseDouble(firsttext);
+        n2 = Double.parseDouble(secondtext);
+
+
+
+    }
+
+
+    public void add (View v) {
+
+
+
+                findViewById();
+                DecimalFormat formatter = new DecimalFormat("#,###.##");
+                result = m.add(n1, n2);
+                String formatted = formatter.format(result);
+                Answer.setText(String.valueOf(result));
+                Answer.setText(formatted);
+
+
+    }
+
+    public void minus (View v) {
+
+        findViewById();
+
+        DecimalFormat formatter = new DecimalFormat("#,###.##");
+        result = m.minus(n1, n2);
+        String formatted  = formatter.format(result);
+        Answer.setText(String.valueOf(result));
+        Answer.setText(formatted);
+    }
+
+    public void multiply (View v) {
+        findViewById();
+        DecimalFormat formatter = new DecimalFormat("#,###.##");
+        result = m.multiply(n1, n2);
+        String formatted  = formatter.format(result);
+        Answer.setText(String.valueOf(result));
+        Answer.setText(formatted);
+    }
+
+    public void divide (View v) {
+
+        findViewById();
+        DecimalFormat formatter = new DecimalFormat("#,###.##");
+        result = m.divide(n1, n2);
+        String formatted  = formatter.format(result);
+        Answer.setText(String.valueOf(result));
+        Answer.setText(formatted);
+    }
+
+    public void clear (View v) {
+        FirstNumber.setText("");
+        SecondNumber.setText("");
+        Answer.setText("");
+    }
+
+    public void exit (View v) {
+
+        finish();
+        System.exit(0);
+
+    }
+
+
+    }
+
+
+
+
+-------------------------------------------------------------------------
+
+
+package kent.gimenez.com.easycalc;
+
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AlertDialog.Builder;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.DecimalFormat;
+
+public class MainActivity extends AppCompatActivity{
+
+    private EditText FirstNumber;
+    private EditText SecondNumber;
+    private TextView Answer;
+    private String firsttext, secondtext;
+    private double n1, n2;
+    private double result;
+
+    Operation m = new Operation ();
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+    }
+
+    private void findViewById() {
+
+       FirstNumber = (EditText) findViewById(R.id.firstnum);
+        SecondNumber =  (EditText) findViewById(R.id.secondnum);
+        Answer =(TextView) findViewById(R.id.result);
+
+        firsttext = FirstNumber.getText().toString();
+        secondtext = SecondNumber.getText().toString();
+
+        n1 = Double.parseDouble(firsttext);
+        n2 = Double.parseDouble(secondtext);
+
+
+
+    }
+
+
+    public void add (View v) {
+
+
+
+                findViewById();
+                DecimalFormat formatter = new DecimalFormat("#,###.##");
+                result = m.add(n1, n2);
+                String formatted = formatter.format(result);
+                Answer.setText(String.valueOf(result));
+                Answer.setText(formatted);
+
+
+    }
+
+    public void minus (View v) {
+
+        findViewById();
+
+        DecimalFormat formatter = new DecimalFormat("#,###.##");
+        result = m.minus(n1, n2);
+        String formatted  = formatter.format(result);
+        Answer.setText(String.valueOf(result));
+        Answer.setText(formatted);
+    }
+
+    public void multiply (View v) {
+        findViewById();
+        DecimalFormat formatter = new DecimalFormat("#,###.##");
+        result = m.multiply(n1, n2);
+        String formatted  = formatter.format(result);
+        Answer.setText(String.valueOf(result));
+        Answer.setText(formatted);
+    }
+
+    public void divide (View v) {
+
+        findViewById();
+        DecimalFormat formatter = new DecimalFormat("#,###.##");
+        result = m.divide(n1, n2);
+        String formatted  = formatter.format(result);
+        Answer.setText(String.valueOf(result));
+        Answer.setText(formatted);
+    }
+
+    public void clear (View v) {
+        FirstNumber.setText("");
+        SecondNumber.setText("");
+        Answer.setText("");
+    }
+
+    public void exit (View v) {
+
+        finish();
+        System.exit(0);
+
+    }
+
+
+    }
+
+
+
+-----------------------------------------------------------------------------------
+
+
+
+
+
+
+package kent.gimenez.com.easycalc;
+
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AlertDialog.Builder;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.DecimalFormat;
+
+public class MainActivity extends AppCompatActivity{
+
+    private EditText FirstNumber;
+    private EditText SecondNumber;
+    private TextView Answer;
+    private String firsttext, secondtext;
+    private double n1, n2;
+    private double result;
+
+    Operation m = new Operation ();
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+
+    }
+
+    private void findViewById() {
+
+       FirstNumber = (EditText) findViewById(R.id.firstnum);
+        SecondNumber =  (EditText) findViewById(R.id.secondnum);
+        Answer =(TextView) findViewById(R.id.result);
+
+        firsttext = FirstNumber.getText().toString();
+        secondtext = SecondNumber.getText().toString();
+
+        n1 = Double.parseDouble(firsttext);
+        n2 = Double.parseDouble(secondtext);
+
+
+
+    }
+
+
+    public void add (View v) {
+
+
+
+                findViewById();
+                DecimalFormat formatter = new DecimalFormat("#,###.##");
+                result = m.add(n1, n2);
+                String formatted = formatter.format(result);
+                Answer.setText(String.valueOf(result));
+                Answer.setText(formatted);
+
+
+    }
+
+    public void minus (View v) {
+
+        findViewById();
+
+        DecimalFormat formatter = new DecimalFormat("#,###.##");
+        result = m.minus(n1, n2);
+        String formatted  = formatter.format(result);
+        Answer.setText(String.valueOf(result));
+        Answer.setText(formatted);
+    }
+
+    public void multiply (View v) {
+        findViewById();
+        DecimalFormat formatter = new DecimalFormat("#,###.##");
+        result = m.multiply(n1, n2);
+        String formatted  = formatter.format(result);
+        Answer.setText(String.valueOf(result));
+        Answer.setText(formatted);
+    }
+
+    public void divide (View v) {
+
+        findViewById();
+        DecimalFormat formatter = new DecimalFormat("#,###.##");
+        result = m.divide(n1, n2);
+        String formatted  = formatter.format(result);
+        Answer.setText(String.valueOf(result));
+        Answer.setText(formatted);
+    }
+
+    public void clear (View v) {
+        FirstNumber.setText("");
+        SecondNumber.setText("");
+        Answer.setText("");
+    }
+
+    public void exit (View v) {
+
+        finish();
+        System.exit(0);
+
+    }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
